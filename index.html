@@ -1,1 +1,221 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ЕГЭ Мастер - Русский язык</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- Экран загрузки -->
+        <div id="loading-screen" class="screen active">
+            <div class="loader-container">
+                <div class="logo-animated">
+                    <span class="logo-icon">📚</span>
+                    <h1>ЕГЭ Мастер</h1>
+                </div>
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
+                <p class="loading-text">Загрузка...</p>
+            </div>
+        </div>
 
+        <!-- Экран приветствия / Создание персонажа -->
+        <div id="welcome-screen" class="screen">
+            <div class="welcome-container">
+                <h1>Добро пожаловать!</h1>
+                <p>Создай своего персонажа и начни путь к 100 баллам</p>
+                
+                <div class="character-creator">
+                    <div class="avatar-selector">
+                        <h3>Выбери аватар</h3>
+                        <div class="avatars-grid" id="avatars-grid"></div>
+                    </div>
+                    
+                    <div class="name-input">
+                        <label for="player-name">Твоё имя</label>
+                        <input type="text" id="player-name" placeholder="Введи имя..." maxlength="20">
+                    </div>
+                    
+                    <div class="difficulty-selector">
+                        <h3>Уровень сложности</h3>
+                        <div class="difficulty-options">
+                            <button class="difficulty-btn" data-difficulty="easy">
+                                <span class="diff-icon">🌱</span>
+                                <span class="diff-name">Новичок</span>
+                                <span class="diff-desc">Больше подсказок</span>
+                            </button>
+                            <button class="difficulty-btn active" data-difficulty="normal">
+                                <span class="diff-icon">⚡</span>
+                                <span class="diff-name">Стандарт</span>
+                                <span class="diff-desc">Баланс</span>
+                            </button>
+                            <button class="difficulty-btn" data-difficulty="hard">
+                                <span class="diff-icon">🔥</span>
+                                <span class="diff-name">Эксперт</span>
+                                <span class="diff-desc">Без подсказок</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-primary btn-large" id="start-journey">
+                        Начать путешествие 🚀
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Главный экран -->
+        <div id="main-screen" class="screen">
+            <!-- Верхняя панель -->
+            <header class="main-header">
+                <div class="header-left">
+                    <div class="user-info" id="header-user-info">
+                        <div class="user-avatar-small"></div>
+                        <div class="user-details">
+                            <span class="user-name">Игрок</span>
+                            <span class="user-level">Уровень 1</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="header-center">
+                    <div class="streak-counter" id="streak-counter">
+                        <span class="streak-icon">🔥</span>
+                        <span class="streak-number">0</span>
+                    </div>
+                </div>
+                
+                <div class="header-right">
+                    <div class="currency-display">
+                        <div class="currency gems" title="Кристаллы">
+                            <span class="currency-icon">💎</span>
+                            <span class="currency-amount" id="gems-amount">0</span>
+                        </div>
+                        <div class="currency coins" title="Монеты">
+                            <span class="currency-icon">🪙</span>
+                            <span class="currency-amount" id="coins-amount">0</span>
+                        </div>
+                    </div>
+                    <button class="icon-btn" id="settings-btn" title="Настройки">⚙️</button>
+                </div>
+            </header>
+
+            <!-- XP прогресс -->
+            <div class="xp-bar-container">
+                <div class="xp-bar">
+                    <div class="xp-progress" id="xp-progress"></div>
+                </div>
+                <span class="xp-text" id="xp-text">0 / 100 XP</span>
+            </div>
+
+            <!-- Навигация -->
+            <nav class="main-nav">
+                <button class="nav-btn active" data-tab="roadmap">
+                    <span class="nav-icon">🗺️</span>
+                    <span class="nav-label">Карта</span>
+                </button>
+                <button class="nav-btn" data-tab="practice">
+                    <span class="nav-icon">📝</span>
+                    <span class="nav-label">Практика</span>
+                </button>
+                <button class="nav-btn" data-tab="stats">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-label">Статистика</span>
+                </button>
+                <button class="nav-btn" data-tab="shop">
+                    <span class="nav-icon">🛒</span>
+                    <span class="nav-label">Магазин</span>
+                </button>
+                <button class="nav-btn" data-tab="profile">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-label">Профиль</span>
+                </button>
+            </nav>
+
+            <!-- Контент табов -->
+            <main class="main-content">
+                <!-- Дорожная карта -->
+                <section id="roadmap-tab" class="tab-content active">
+                    <div class="roadmap-container" id="roadmap-container"></div>
+                </section>
+
+                <!-- Практика по заданиям -->
+                <section id="practice-tab" class="tab-content">
+                    <h2 class="section-title">Выбери задание</h2>
+                    <div class="tasks-grid" id="tasks-grid"></div>
+                </section>
+
+                <!-- Статистика -->
+                <section id="stats-tab" class="tab-content">
+                    <div class="stats-container" id="stats-container"></div>
+                </section>
+
+                <!-- Магазин -->
+                <section id="shop-tab" class="tab-content">
+                    <div class="shop-container" id="shop-container"></div>
+                </section>
+
+                <!-- Профиль -->
+                <section id="profile-tab" class="tab-content">
+                    <div class="profile-container" id="profile-container"></div>
+                </section>
+            </main>
+        </div>
+
+        <!-- Экран урока/квеста -->
+        <div id="lesson-screen" class="screen">
+            <header class="lesson-header">
+                <button class="btn-back" id="lesson-back">✕</button>
+                <div class="lesson-progress">
+                    <div class="progress-bar-mini">
+                        <div class="progress-fill" id="lesson-progress-fill"></div>
+                    </div>
+                    <span class="progress-text" id="lesson-progress-text">1/5</span>
+                </div>
+                <div class="lesson-hearts" id="lesson-hearts">
+                    <span>❤️</span><span>❤️</span><span>❤️</span>
+                </div>
+            </header>
+
+            <div class="lesson-content" id="lesson-content"></div>
+
+            <footer class="lesson-footer">
+                <button class="btn-primary btn-large" id="lesson-check" disabled>
+                    Проверить
+                </button>
+            </footer>
+        </div>
+
+        <!-- Экран результатов урока -->
+        <div id="result-screen" class="screen">
+            <div class="result-container" id="result-container"></div>
+        </div>
+
+        <!-- Модальные окна -->
+        <div id="modal-overlay" class="modal-overlay">
+            <div class="modal" id="modal-content"></div>
+        </div>
+
+        <!-- Уведомления -->
+        <div id="notifications" class="notifications-container"></div>
+    </div>
+
+    <!-- JavaScript модули -->
+    <script src="js/data/questions.js"></script>
+    <script src="js/modules/storage.js"></script>
+    <script src="js/modules/user.js"></script>
+    <script src="js/modules/character.js"></script>
+    <script src="js/modules/achievements.js"></script>
+    <script src="js/modules/roadmap.js"></script>
+    <script src="js/modules/game.js"></script>
+    <script src="js/utils/helpers.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
